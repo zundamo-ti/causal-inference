@@ -1,0 +1,30 @@
+// .edge {
+//   position: absolute;
+//   background-color: #000000;
+// }
+
+.edge {
+  * {
+    position: absolute;
+  }
+
+  .hitBox {
+    background-color: transparent;
+    transition: all 0.2s;
+    z-index: 2;
+
+    &:hover {
+      background-color: #add8e676;
+    }
+  }
+
+  .line {
+    background-color: #000000;
+    z-index: 1;
+  }
+
+  .head {
+    background-color: transparent;
+    z-index: 1;
+  }
+}
