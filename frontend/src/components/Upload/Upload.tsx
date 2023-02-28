@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { TableState } from "./states";
+import styles from "../../styles/components/Graph/Upload.module.scss";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
@@ -32,22 +33,25 @@ export default function Upload() {
   });
 
   return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        if (file) {
-          fileReader.readAsText(file);
-        }
-      }}
-    >
-      <input
-        type="file"
-        onChange={(e) => {
-          const files = e.target.files;
-          if (files && files[0]) setFile(files[0]);
+    <div className={styles.upload}>
+      <h1>Upload File</h1>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          if (file) {
+            fileReader.readAsText(file);
+          }
         }}
-      />
-      <input type="submit" value="Upload" />
-    </form>
+      >
+        <input
+          type="file"
+          onChange={(e) => {
+            const files = e.target.files;
+            if (files && files[0]) setFile(files[0]);
+          }}
+        />
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
   );
 }

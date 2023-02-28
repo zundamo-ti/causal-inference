@@ -1,23 +1,10 @@
 import { v4 as uuid4 } from "uuid";
-import { RecoilRoot, useRecoilValue } from "recoil";
-import Graph from "./components/Graph";
+import { RecoilRoot } from "recoil";
+import { Graph } from "./components/Graph";
 import appStyles from "./styles/App.module.scss";
-import Inference from "./components/Inference/Inference";
-import Upload from "./components/Upload/Upload";
-import { InferenceResultState } from "./components/Inference/states";
-
-function InferenceResultDisplayer() {
-  const inferenceResult = useRecoilValue(InferenceResultState);
-
-  return (
-    <>
-      {inferenceResult.ATE && <div>ATE:{inferenceResult.ATE.toFixed(2)}</div>}
-      {inferenceResult.NAIVE && (
-        <div>NAIVE:{inferenceResult.NAIVE.toFixed(2)}</div>
-      )}
-    </>
-  );
-}
+import { InferenceButton } from "./components/Inference";
+import { Upload } from "./components/Upload";
+import { InferenceResultDisplayer } from "./components/Inference";
 
 function App() {
   const nodeNames = ["貧困率", "犯罪発生率", "平均寿命"];
@@ -35,7 +22,7 @@ function App() {
       <div className={appStyles.app}>
         <h1>Treatment Effect Optimization</h1>
         <Upload />
-        <Inference />
+        <InferenceButton />
         <InferenceResultDisplayer />
         <Graph />
       </div>

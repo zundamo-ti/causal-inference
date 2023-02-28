@@ -3,8 +3,9 @@ import { GraphValue } from "../Graph";
 import { OutcomeValue, TreatmentValue } from "../Graph/states";
 import { TableState } from "../Upload/states";
 import { InferenceResultState } from "./states";
+import styles from "../../styles/components/Inference/Button.module.scss";
 
-export default function Inference() {
+export default function InferenceButton() {
   const graph = useRecoilValue(GraphValue);
   const table = useRecoilValue(TableState);
   const treatment = useRecoilValue(TreatmentValue);
@@ -13,7 +14,7 @@ export default function Inference() {
     useRecoilState(InferenceResultState);
 
   return (
-    <div>
+    <div className={styles.button}>
       <button
         onClick={async () => {
           if (!treatment) {

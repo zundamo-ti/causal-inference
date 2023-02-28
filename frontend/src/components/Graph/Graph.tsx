@@ -22,7 +22,7 @@ export default function Graph() {
         radius: 50,
         center: {
           left: 100 + (index + 1) * 150,
-          top: 200,
+          top: 300,
         },
       };
     });
