@@ -9,6 +9,7 @@ uvicorn = "*"
 pandas = "*"
 numpy = "*"
 networkx = "*"
+scikit-learn = "*"
 
 [dev-packages]
 black = "*"
