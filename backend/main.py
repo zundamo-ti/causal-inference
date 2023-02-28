@@ -4,7 +4,7 @@ import networkx as nx
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
-from src.causal_inference import CasualInference, InferenceMode
+from src.simultaneous_inference import SimultaneousCausalInference
 
 app = FastAPI()
 
@@ -24,13 +24,12 @@ class Graph(BaseModel):
 class InferenceRequest(BaseModel):
     table: Table
     graph: Graph
-    treatment: str
+    treatments: list[str]
     outcome: str
-    mode: InferenceMode
 
 
 class InferenceResponse(BaseModel):
-    causal_effect: float
+    causal_effect: dict[str, float]
 
 
 @app.post("/inference")
@@ -41,6 +40,6 @@ async def average_treatment_effect(req: InferenceRequest) -> InferenceResponse:
     edges = list(map(lambda edge: (edge.fromNode, edge.toNode), req.graph.edges))
     graph.add_nodes_from(nodes)
     graph.add_edges_from(edges)
-    ci = CasualInference(df, req.treatment, req.outcome, graph)
-    res = InferenceResponse(causal_effect=ci.causal_effect(mode=req.mode))
+    ci = SimultaneousCausalInference(df, req.treatments, req.outcome, graph)
+    res = InferenceResponse(causal_effect=ci.causal_effect())
     return res

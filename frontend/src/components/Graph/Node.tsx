@@ -106,8 +106,8 @@ export default function Node({ id, name, radius, center }: NodeProps) {
     e.stopPropagation();
     const ids = treatmentNodes.id;
     if (!ids || !ids?.includes(id)) {
-      const treatment = confirm("介入変数に設定しますか？");
-      if (treatment) {
+      const addToTreatment = confirm("介入変数に設定しますか？");
+      if (addToTreatment) {
         if (ids) {
           setTreatmentNodes({ id: [...ids, id] });
         } else {
@@ -118,10 +118,16 @@ export default function Node({ id, name, radius, center }: NodeProps) {
         }
         return;
       }
+    } else {
+      const removeFromTreatment = confirm("介入変数から除外しますか？");
+      if (removeFromTreatment) {
+        setTreatmentNodes({ id: ids.filter((v) => v != id) });
+        return;
+      }
     }
     if (outcomeNode.id !== id) {
-      const outcome = confirm("アウトカム変数に設定しますか？");
-      if (outcome) {
+      const addToOutcome = confirm("アウトカム変数に設定しますか？");
+      if (addToOutcome) {
         setOutcomeNode({ id });
         if (ids?.includes(id)) {
           setTreatmentNodes({ id: ids.filter((v) => v != id) });

@@ -102,3 +102,40 @@ def find_minimum_backdoor_set(
             essential_graph.remove_edge(x, y)
     number_of_nodes, adjustment_set = find_minimum_d_separator(essential_graph, X, Y)
     return number_of_nodes, adjustment_set
+
+
+def find_admissible_variables(
+    G: nx.DiGraph, intervention_vars: list[TNode], target_var: TNode
+) -> list[list[TNode]]:
+    """Find admissible variables
+
+    Args:
+        G (nx.DiGraph): Causal graph DAG.
+        intervention_vars (list[TNode]):
+        target_var (TNode):
+    Returns:
+        admissible_vars (set[TNode]): A admissible variables.
+    """
+    admissible_vars: list[list[TNode]] = []
+    covariates: set[TNode] = set()
+    n_intervetion_vars = len(intervention_vars)
+    for i in range(n_intervetion_vars):
+        G_ = G.copy()
+        intervention_var = intervention_vars[i]
+        removing_edges = set(G_.out_edges(intervention_var))
+        forbidden_nodes = nx.descendants(G, intervention_var)
+        for j in range(i + 1, n_intervetion_vars):
+            removing_edges.update(set(G_.in_edges(intervention_vars[j])))
+            forbidden_nodes.update(nx.descendants(G, intervention_vars[j]))
+        for node in covariates:
+            G_.nodes[node]["cost"] = 0.0
+        for node in forbidden_nodes:
+            G_.nodes[node]["cost"] = float("inf")
+        G_.remove_edges_from(removing_edges)
+        cost, d_separator = find_minimum_d_separator(
+            G_, {intervention_var}, {target_var}
+        )
+        admissible_vars.append(list(d_separator.difference(covariates)))
+        covariates.add(intervention_var)
+        covariates.update(d_separator)
+    return admissible_vars

@@ -71,10 +71,5 @@ interface Table {
 }
 
 interface InferenceResult {
-  causal_effect?: number;
+  causal_effect?: { [key: string]: number };
 }
-
-type InferenceMode =
-  | "NaiveTreatmentEffect"
-  | "AverageTreatmentEffect"
-  | "LinearRegressionEffect";

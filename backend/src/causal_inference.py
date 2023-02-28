@@ -114,29 +114,3 @@ class CasualInference:
         if mode == InferenceMode.LinearRegressionEffect:
             return self.linear_causal_effect()
         raise InvalidInferenceModeError
-
-
-class MultiInterventionInference:
-    def __init__(
-        self,
-        df: pd.DataFrame,
-        intervention_cols: list[str],
-        target_col: str,
-        causal_graph: nx.DiGraph,
-    ) -> None:
-        self.df = df
-        self.intervention_cols = intervention_cols
-        self.target_col = target_col
-        self.other_cols = [
-            col for col in df.columns if col not in [intervention_cols, target_col]
-        ]
-        self.causal_graph = causal_graph
-
-    def _find_adjustment_set(self) -> list[str]:
-        _, adjustment_set = find_minimum_backdoor_set(
-            self.causal_graph, set(self.intervention_cols), {self.target_col}
-        )
-        return list(adjustment_set)
-
-    def causal_inference(self) -> list[float]:
-        raise NotImplementedError

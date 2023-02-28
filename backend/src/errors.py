@@ -4,3 +4,7 @@ class Error(Exception):
 
 class InvalidInferenceModeError(Error):
     pass
+
+
+class CannotDetermineCausalEffectError(Error):
+    pass
