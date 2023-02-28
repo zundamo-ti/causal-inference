@@ -13,32 +13,7 @@ import {
 } from "./states";
 
 import styles from "../../styles/components/Graph/Node.module.scss";
-
-function visitedFromNode(
-  nodeID: NodeID,
-  adjacentDict: AdjacentDict,
-  visited: { [key: NodeID]: boolean }
-) {
-  visited[nodeID] = true;
-  if (!adjacentDict[nodeID]) return;
-  for (let nextNodeID of adjacentDict[nodeID]) {
-    if (visited[nextNodeID]) continue;
-    visitedFromNode(nextNodeID, adjacentDict, visited);
-  }
-}
-
-function checkAcyclicity(edge: IEdge, adjacentDict: AdjacentDict): boolean {
-  let visited: { [key: NodeID]: boolean } = {};
-  visitedFromNode(edge.toNodeId, adjacentDict, visited);
-  if (visited[edge.fromNodeId]) return false;
-  return true;
-}
-
-function checkMultiplicity(edge: IEdge, adjacentDict: AdjacentDict): boolean {
-  const adjacentNodes = adjacentDict[edge.fromNodeId];
-  if (!adjacentNodes) return false;
-  return adjacentNodes.includes(edge.toNodeId);
-}
+import { checkAcyclicity, checkMultiplicity } from "./utils";
 
 export default function Node({ id, name, radius, center }: NodeProps) {
   const [nodeDict, setNodeDict] = useRecoilState(NodeDictState);

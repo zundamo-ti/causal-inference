@@ -1,8 +1,9 @@
 import _ from "lodash";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { EdgeDictState, NodeDictState } from "./states";
+import { AdjacentDictValue, EdgeDictState, NodeDictState } from "./states";
 
 import styles from "../../styles/components/Graph/Edge.module.scss";
+import { checkAcyclicityRemovingEdge } from "./utils";
 
 export function CreatingArrow({
   fromPoint,
@@ -78,6 +79,7 @@ export function Arrow({
   const headSize: Size = { width: 10, height: 20 };
 
   const [edgeDict, setEdgeDict] = useRecoilState(EdgeDictState);
+  const adjacentDict = useRecoilValue(AdjacentDictValue);
 
   return (
     <div className={styles.edge}>
@@ -93,12 +95,30 @@ export function Arrow({
             hitBoxThickness / 2
           }px`,
         }}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.button !== 0) return;
           if (!id) return;
           const deleteEdge = confirm(`消去しますか？`);
           if (deleteEdge) {
             setEdgeDict(_.omit(edgeDict, [id]));
           }
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!id) return;
+          const oldEdge = edgeDict[id];
+          const { fromNodeId, toNodeId } = oldEdge;
+          const newEdge = { fromNodeId: toNodeId, toNodeId: fromNodeId };
+          if (!checkAcyclicityRemovingEdge(newEdge, adjacentDict, oldEdge)) {
+            alert("因果が循環してしまいます");
+            return;
+          }
+          const newEdgeDict = _.merge({}, edgeDict);
+          newEdgeDict[id] = newEdge;
+          setEdgeDict(newEdgeDict);
         }}
       ></div>
       <div
