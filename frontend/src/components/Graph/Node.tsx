@@ -46,7 +46,7 @@ export default function Node({ id, name, radius, center }: NodeProps) {
   const [creatingArrow, setCreatingArrowState] =
     useRecoilState(CreatingArrowState);
   const [treatmentNode, setTreatmentNode] = useRecoilState(TreatmentNodeState);
-  const [outcomeNode, setOutcomNode] = useRecoilState(OutcomeNodeState);
+  const [outcomeNode, setOutcomeNode] = useRecoilState(OutcomeNodeState);
   const adjacentDict = useRecoilValue(AdjacentDictValue);
 
   const startDraggingNode = (e: React.MouseEvent) => {
@@ -129,26 +129,46 @@ export default function Node({ id, name, radius, center }: NodeProps) {
     e.preventDefault();
     e.stopPropagation();
     if (treatmentNode.id && !outcomeNode.id) {
-      const outcome = confirm("アウトカム変数に設定しますか？");
-      if (outcome) {
-        setOutcomNode({ id });
-        return;
+      if (outcomeNode.id !== id) {
+        const outcome = confirm("アウトカム変数に設定しますか？");
+        if (outcome) {
+          setOutcomeNode({ id });
+          if (treatmentNode.id === id) {
+            setTreatmentNode({});
+          }
+          return;
+        }
       }
-      const treatment = confirm("介入変数に設定しますか？");
-      if (treatment) {
-        setTreatmentNode({ id });
-        return;
+      if (treatmentNode.id !== id) {
+        const treatment = confirm("介入変数に設定しますか？");
+        if (treatment) {
+          setTreatmentNode({ id });
+          if (outcomeNode.id === id) {
+            setOutcomeNode({});
+          }
+          return;
+        }
       }
     } else {
-      const treatment = confirm("介入変数に設定しますか？");
-      if (treatment) {
-        setTreatmentNode({ id });
-        return;
+      if (treatmentNode.id !== id) {
+        const treatment = confirm("介入変数に設定しますか？");
+        if (treatment) {
+          setTreatmentNode({ id });
+          if (outcomeNode.id === id) {
+            setOutcomeNode({});
+          }
+          return;
+        }
       }
-      const outcome = confirm("アウトカム変数に設定しますか？");
-      if (outcome) {
-        setOutcomNode({ id });
-        return;
+      if (outcomeNode.id !== id) {
+        const outcome = confirm("アウトカム変数に設定しますか？");
+        if (outcome) {
+          setOutcomeNode({ id });
+          if (treatmentNode.id === id) {
+            setTreatmentNode({});
+          }
+          return;
+        }
       }
     }
   };

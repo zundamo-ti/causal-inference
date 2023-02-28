@@ -8,7 +8,7 @@ export default function Upload() {
 
   const fileReader = new FileReader();
   fileReader.addEventListener("load", (event) => {
-    const csvString = event.target?.result?.toString();
+    const csvString = event.target?.result?.toString().trim();
     if (!csvString) {
       return;
     }
