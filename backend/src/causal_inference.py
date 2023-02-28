@@ -1,12 +1,14 @@
+from enum import Enum
 import itertools
 from typing import TypeVar
 
 from typing import Optional
+from src.errors import InvalidInferenceModeError
 
 import networkx as nx
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
@@ -112,6 +114,12 @@ def find_minimum_backdoor_set(
     return number_of_nodes, adjustment_set
 
 
+class InferenceMode(str, Enum):
+    NaiveTreatmentEffect = "NaiveTreatmentEffect"
+    AverageTreatmentEffect = "AverageTreatmentEffect"
+    LinearRegressionEffect = "LinearRegressionEffect"
+
+
 class CasualInference:
     """casual inference
 
@@ -167,6 +175,17 @@ class CasualInference:
         )
         return list(adjustment_set)
 
+    def linear_causal_effect(self) -> float:
+        explain_cols = self._find_adjustment_set()
+        explain_cols.append(self.intervention_col)
+        X = self.df[explain_cols]
+        y = self.df[self.target_col]
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+        rg = LinearRegression()
+        rg.fit(X_train, y_train)
+        causal_effect = float(rg.coef_[-1])
+        return causal_effect
+
     def average_treatment_effect(self) -> float:
         """calculate average treatment effect by inverse probability weighting
 
@@ -200,3 +219,12 @@ class CasualInference:
             self.df[self.target_col][intervented].mean()
             - self.df[self.target_col][not_intervented].mean()
         )
+
+    def causal_effect(self, mode: InferenceMode) -> float:
+        if mode == InferenceMode.NaiveTreatmentEffect:
+            return self.naive_treatment_effect()
+        if mode == InferenceMode.AverageTreatmentEffect:
+            return self.average_treatment_effect()
+        if mode == InferenceMode.LinearRegressionEffect:
+            return self.linear_causal_effect()
+        raise InvalidInferenceModeError
