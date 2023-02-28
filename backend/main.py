@@ -1,12 +1,10 @@
 from typing import TypeAlias
-from src.causal_inference import InferenceMode
 
 import networkx as nx
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
-
-from src.causal_inference import CasualInference
+from src.causal_inference import CasualInference, InferenceMode
 
 app = FastAPI()
 

@@ -1,10 +1,12 @@
-import { v4 as uuid4 } from "uuid";
 import { RecoilRoot } from "recoil";
+import { v4 as uuid4 } from "uuid";
 import { Graph } from "./components/Graph";
-import appStyles from "./styles/App.module.scss";
-import { InferenceButton } from "./components/Inference";
+import {
+  InferenceButton,
+  InferenceResultDisplayer,
+} from "./components/Inference";
 import { Upload } from "./components/Upload";
-import { InferenceResultDisplayer } from "./components/Inference";
+import appStyles from "./styles/App.module.scss";
 
 function App() {
   const nodeNames = ["貧困率", "犯罪発生率", "平均寿命"];

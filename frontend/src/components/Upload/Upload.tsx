@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { TableState } from "./states";
 import styles from "../../styles/components/Graph/Upload.module.scss";
+import { TableState } from "./states";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);

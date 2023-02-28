@@ -4,12 +4,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { v4 as uuid4 } from "uuid";
 
 import {
-  NodeDictState,
+  AdjacentDictValue,
   CreatingArrowState,
   EdgeDictState,
-  AdjacentDictValue,
-  TreatmentNodeState,
+  NodeDictState,
   OutcomeNodeState,
+  TreatmentNodesState,
 } from "./states";
 
 import styles from "../../styles/components/Graph/Node.module.scss";
@@ -20,7 +20,8 @@ export default function Node({ id, name, radius, center }: NodeProps) {
   const [edgeDict, setEdgeDict] = useRecoilState(EdgeDictState);
   const [creatingArrow, setCreatingArrowState] =
     useRecoilState(CreatingArrowState);
-  const [treatmentNode, setTreatmentNode] = useRecoilState(TreatmentNodeState);
+  const [treatmentNodes, setTreatmentNodes] =
+    useRecoilState(TreatmentNodesState);
   const [outcomeNode, setOutcomeNode] = useRecoilState(OutcomeNodeState);
   const adjacentDict = useRecoilValue(AdjacentDictValue);
 
@@ -103,47 +104,29 @@ export default function Node({ id, name, radius, center }: NodeProps) {
   const setTreatmentOrOutcome = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (treatmentNode.id && !outcomeNode.id) {
-      if (outcomeNode.id !== id) {
-        const outcome = confirm("アウトカム変数に設定しますか？");
-        if (outcome) {
-          setOutcomeNode({ id });
-          if (treatmentNode.id === id) {
-            setTreatmentNode({});
-          }
-          return;
+    const ids = treatmentNodes.id;
+    if (!ids || !ids?.includes(id)) {
+      const treatment = confirm("介入変数に設定しますか？");
+      if (treatment) {
+        if (ids) {
+          setTreatmentNodes({ id: [...ids, id] });
+        } else {
+          setTreatmentNodes({ id: [id] });
         }
+        if (outcomeNode.id === id) {
+          setOutcomeNode({});
+        }
+        return;
       }
-      if (treatmentNode.id !== id) {
-        const treatment = confirm("介入変数に設定しますか？");
-        if (treatment) {
-          setTreatmentNode({ id });
-          if (outcomeNode.id === id) {
-            setOutcomeNode({});
-          }
-          return;
+    }
+    if (outcomeNode.id !== id) {
+      const outcome = confirm("アウトカム変数に設定しますか？");
+      if (outcome) {
+        setOutcomeNode({ id });
+        if (ids?.includes(id)) {
+          setTreatmentNodes({ id: ids.filter((v) => v != id) });
         }
-      }
-    } else {
-      if (treatmentNode.id !== id) {
-        const treatment = confirm("介入変数に設定しますか？");
-        if (treatment) {
-          setTreatmentNode({ id });
-          if (outcomeNode.id === id) {
-            setOutcomeNode({});
-          }
-          return;
-        }
-      }
-      if (outcomeNode.id !== id) {
-        const outcome = confirm("アウトカム変数に設定しますか？");
-        if (outcome) {
-          setOutcomeNode({ id });
-          if (treatmentNode.id === id) {
-            setTreatmentNode({});
-          }
-          return;
-        }
+        return;
       }
     }
   };
@@ -152,7 +135,7 @@ export default function Node({ id, name, radius, center }: NodeProps) {
     <>
       <div
         className={`${styles.node} ${
-          treatmentNode.id === id ? styles.treatment : ""
+          treatmentNodes.id?.includes(id) ? styles.treatment : ""
         } ${outcomeNode.id === id ? styles.outcome : ""}`}
         style={{
           width: `${2 * radius}px`,

@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import styles from "../../styles/components/Inference/Button.module.scss";
 import { GraphValue } from "../Graph";
-import { OutcomeValue, TreatmentValue } from "../Graph/states";
+import { OutcomeValue, TreatmentsValue } from "../Graph/states";
 import { TableState } from "../Upload/states";
 import { InferenceModeState, InferenceResultState } from "./states";
-import styles from "../../styles/components/Inference/Button.module.scss";
-import { useEffect } from "react";
 
 function isInferenceMode(object: any): object is InferenceMode {
   return (
@@ -17,7 +17,7 @@ function isInferenceMode(object: any): object is InferenceMode {
 export default function InferenceButton() {
   const graph = useRecoilValue(GraphValue);
   const table = useRecoilValue(TableState);
-  const treatment = useRecoilValue(TreatmentValue);
+  const treatments = useRecoilValue(TreatmentsValue);
   const outcome = useRecoilValue(OutcomeValue);
   const [inferenceResult, setInferenceResult] =
     useRecoilState(InferenceResultState);
@@ -41,7 +41,7 @@ export default function InferenceButton() {
       <button
         onClick={async () => {
           const mode = inferenceMode.mode;
-          if (!treatment) {
+          if (treatments.length === 0) {
             alert("介入変数を選択してください");
             return;
           }
@@ -55,7 +55,7 @@ export default function InferenceButton() {
           }
           const res = await fetch("/api/inference", {
             method: "post",
-            body: JSON.stringify({ graph, table, treatment, outcome, mode }),
+            body: JSON.stringify({ graph, table, treatments, outcome, mode }),
             headers: {
               "Content-Type": "application/json",
             },

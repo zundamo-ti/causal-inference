@@ -1,7 +1,7 @@
-import { v4 as uuid4 } from "uuid";
 import { useRecoilValue } from "recoil";
-import { InferenceResultState } from "./states";
+import { v4 as uuid4 } from "uuid";
 import styles from "../../styles/components/Inference/Result.module.scss";
+import { InferenceResultState } from "./states";
 
 export default function InferenceResultDisplayer() {
   const inferenceResult = useRecoilValue(InferenceResultState);

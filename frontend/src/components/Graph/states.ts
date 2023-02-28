@@ -35,8 +35,8 @@ export const AdjacentDictValue: RecoilValueReadOnly<AdjacentDict> = selector({
   },
 });
 
-export const TreatmentNodeState: RecoilState<{ id?: NodeID }> = atom({
-  key: "TreatmentNodeState",
+export const TreatmentNodesState: RecoilState<{ id?: NodeID[] }> = atom({
+  key: "TreatmentNodesState",
   default: {},
 });
 
@@ -66,13 +66,14 @@ export const GraphValue: RecoilValueReadOnly<{
   },
 });
 
-export const TreatmentValue: RecoilValueReadOnly<string | null> = selector({
-  key: "TreatmentValue",
+export const TreatmentsValue: RecoilValueReadOnly<string[]> = selector({
+  key: "TreatmentsValue",
   get: ({ get }) => {
     const nodeDict = get(NodeDictState);
-    const treatmentNodeID = get(TreatmentNodeState).id;
-    if (treatmentNodeID) return nodeDict[treatmentNodeID].name;
-    return null;
+    const treatmentNodeIDs = get(TreatmentNodesState);
+    const ids = treatmentNodeIDs.id;
+    if (!ids) return [];
+    return ids.map((nodeID) => nodeDict[nodeID].name);
   },
 });
 

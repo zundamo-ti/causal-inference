@@ -1,12 +1,12 @@
-import { v4 as uuid4 } from "uuid";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { v4 as uuid4 } from "uuid";
 
-import { NodeDictState, CreatingArrowState, EdgeDictState } from "./states";
-import Node from "./Node";
-import Edge, { CreatingArrow } from "./Edge";
-import { TableState } from "../Upload/states";
 import styles from "../../styles/components/Graph/Graph.module.scss";
+import { TableState } from "../Upload/states";
+import Edge, { CreatingArrow } from "./Edge";
+import Node from "./Node";
+import { CreatingArrowState, EdgeDictState, NodeDictState } from "./states";
 
 export default function Graph() {
   const creatingArrow = useRecoilValue(CreatingArrowState);
