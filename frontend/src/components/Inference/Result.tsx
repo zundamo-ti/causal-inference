@@ -15,7 +15,7 @@ export default function InferenceResultDisplayer() {
           <thead>
             <tr>
               <th className={styles.key}>Key</th>
-              <th className={styles.value}>Value</th>
+              <th className={styles.value}>Causal Effect</th>
             </tr>
           </thead>
           <tbody>

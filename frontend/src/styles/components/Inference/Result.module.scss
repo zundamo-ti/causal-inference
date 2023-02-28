@@ -1,20 +1,15 @@
 .result {
   table {
-    width: 50vw;
+    min-width: 30vw;
     border-collapse: separate;
     th {
       color: #ffffff;
       background-color: #717171;
-      padding-block: 5px;
       border-radius: 5px;
 
-      &.key {
-        width: 50%;
-      }
     }
     td {
       background-color: #eaeaea;
-      padding-block: 5px;
       border-radius: 5px;
       text-align: center;
     }

@@ -1,16 +1,24 @@
 .upload {
   background-color: #ebebeb;
-  padding: 10px;
   border-radius: 5px;
+  min-width: 30vw;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   h1 {
-    font-size: medium;
+    font-weight: bold;
     padding: 0;
     padding-bottom: 5px;
   }
 
-  input {
-    font-size: small;
-    padding: 4px;
+  form {
+    display: flex;
+
+    input {
+      font-size: small;
+    }
   }
 }
