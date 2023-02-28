@@ -1,13 +1,16 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { GraphValue } from "../Graph";
 import { OutcomeValue, TreatmentValue } from "../Graph/states";
 import { TableState } from "../Upload/states";
+import { InferenceResultState } from "./states";
 
 export default function Inference() {
   const graph = useRecoilValue(GraphValue);
   const table = useRecoilValue(TableState);
   const treatment = useRecoilValue(TreatmentValue);
   const outcome = useRecoilValue(OutcomeValue);
+  const [inferenceResult, setInferenceResult] =
+    useRecoilState(InferenceResultState);
 
   return (
     <div>
@@ -29,6 +32,7 @@ export default function Inference() {
             },
           });
           const obj = await res.json();
+          setInferenceResult(obj);
         }}
       >
         Inference

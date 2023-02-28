@@ -74,7 +74,7 @@ export function Arrow({
     Math.atan2(toPoint.top - fromPoint.top, toPoint.left - fromPoint.left) *
     (180 / Math.PI);
   const thickness = 2;
-  const hitBoxThickness = 20;
+  const hitBoxThickness = 25;
   const headSize: Size = { width: 10, height: 20 };
 
   const [edgeDict, setEdgeDict] = useRecoilState(EdgeDictState);
@@ -85,11 +85,11 @@ export function Arrow({
         className={styles.hitBox}
         style={{
           height: `${hitBoxThickness}px`,
-          width: `${length - fromOffset - toOffset}px`,
-          left: `${midPoint.left - length / 2 + fromOffset}px`,
+          width: `${length - fromOffset - toOffset + 10}px`,
+          left: `${midPoint.left - length / 2 + fromOffset - 5}px`,
           top: `${midPoint.top - hitBoxThickness / 2}px`,
           rotate: `${angle}deg`,
-          transformOrigin: `${length / 2 - fromOffset}px ${
+          transformOrigin: `${length / 2 - fromOffset + 5}px ${
             hitBoxThickness / 2
           }px`,
         }}
@@ -149,8 +149,8 @@ export default function Edge({
       id={id}
       fromPoint={fromNode.center}
       toPoint={toNode.center}
-      fromOffset={fromNode.radius}
-      toOffset={toNode.radius}
+      fromOffset={fromNode.radius + 10}
+      toOffset={toNode.radius + 10}
     />
   );
 }

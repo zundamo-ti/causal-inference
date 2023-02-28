@@ -69,3 +69,8 @@ interface AdjacentDict {
 interface Table {
   [key: string]: number[];
 }
+
+interface InferenceResult {
+  ATE?: number;
+  NAIVE?: number;
+}

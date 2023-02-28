@@ -3,6 +3,12 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+
+  h1 {
+    font-weight: bold;
+    font-size: x-large;
+    padding: 10px;
+  }
 }

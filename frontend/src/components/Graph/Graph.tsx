@@ -58,8 +58,8 @@ export default function Graph() {
         <CreatingArrow
           fromPoint={creatingArrow.entity.fromPoint}
           toPoint={creatingArrow.entity.toPoint}
-          fromOffset={creatingArrow.entity.fromOffset}
-          toOffset={creatingArrow.entity.toOffset}
+          fromOffset={creatingArrow.entity.fromOffset + 10}
+          toOffset={creatingArrow.entity.toOffset + 10}
         />
       )}
     </div>
