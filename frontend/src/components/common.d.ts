@@ -71,6 +71,10 @@ interface Table {
 }
 
 interface InferenceResult {
-  ATE?: number;
-  NAIVE?: number;
+  causal_effect?: number;
 }
+
+type InferenceMode =
+  | "NaiveTreatmentEffect"
+  | "AverageTreatmentEffect"
+  | "LinearRegressionEffect";
