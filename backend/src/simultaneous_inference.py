@@ -57,15 +57,16 @@ class SimultaneousCausalInference:
         return [col for col in sorted_cols if col in self._intervention_cols]
 
     def causal_effect(self) -> dict[str, float]:
+        df = self.df.sample(int(self.df.shape[0] * 0.5))
         num_intevention_cols = len(self.intervention_cols)
         admissible_cols = find_admissible_variables(
             self.causal_graph, self.intervention_cols, self.target_col
         )
-        df_mean = self.df.mean()
-        df_std = self.df.std()
+        df_mean = df.mean()
+        df_std = df.std()
         ordinal_cols = list(df_std[df_std != 0.0].index)
         constant_cols = list(df_std[df_std == 0.0].index)
-        df_norm = (self.df[ordinal_cols] - df_mean[ordinal_cols]) / df_std[ordinal_cols]
+        df_norm = (df[ordinal_cols] - df_mean[ordinal_cols]) / df_std[ordinal_cols]
         _intervention_cols = []
         _admissible_cols = []
         df_intervention_coeffs = pd.DataFrame()
