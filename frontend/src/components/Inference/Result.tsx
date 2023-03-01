@@ -1,4 +1,5 @@
 import { useRecoilValue } from "recoil";
+import { v4 as uuid4 } from "uuid";
 import styles from "../../styles/components/Inference/Result.module.scss";
 import { TreatmentsValue } from "../Graph/states";
 import { InferenceResultState } from "./states";
@@ -22,7 +23,7 @@ export default function InferenceResultDisplayer() {
             {causalEffect &&
               Object.entries(causalEffect).map(([key, value]) => {
                 return (
-                  <tr>
+                  <tr key={uuid4()}>
                     <td className={styles.key}>{key}</td>
                     <td className={styles.value}>{value.toFixed(4)}</td>
                   </tr>

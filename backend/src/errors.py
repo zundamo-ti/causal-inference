@@ -2,9 +2,13 @@ class Error(Exception):
     pass
 
 
-class InvalidInferenceModeError(Error):
+class InferenceError(Error):
     pass
 
 
-class CannotDetermineCausalEffectError(Error):
+class InvalidInferenceModeError(InferenceError):
+    pass
+
+
+class CannotDetermineCausalEffectError(InferenceError):
     pass

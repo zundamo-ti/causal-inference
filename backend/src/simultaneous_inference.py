@@ -1,5 +1,3 @@
-from typing import Optional
-
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -14,7 +12,7 @@ class SimultaneousCausalInference:
         df (pd.DataFrame): input self.df
         intervention_cols (list[str]): column name that indicates intervention
         target_col (str): column name that indicates target
-        causal_graph (Optional[networkx.DiGraph]): causal graph of input self.df
+        causal_graph (networkx.DiGraph): causal graph of input self.df
     """
 
     def __init__(
@@ -22,7 +20,7 @@ class SimultaneousCausalInference:
         df: pd.DataFrame,
         intervention_cols: list[str],
         target_col: str,
-        causal_graph: Optional[nx.DiGraph] = None,
+        causal_graph: nx.DiGraph,
     ) -> None:
         self.df = df
         self._intervention_cols = intervention_cols
@@ -30,26 +28,7 @@ class SimultaneousCausalInference:
         self.other_cols = [
             col for col in df.columns if col not in intervention_cols + [target_col]
         ]
-        if causal_graph is not None:
-            self.causal_graph = causal_graph
-        else:
-            self.causal_graph = nx.DiGraph()
-            self.causal_graph.add_nodes_from(df.columns)
-            self.causal_graph.add_edges_from(
-                [
-                    (col, intervention_col)
-                    for col, intervention_col in zip(self.other_cols, intervention_cols)
-                ]
-            )
-            self.causal_graph.add_edges_from(
-                [(col, target_col) for col in self.other_cols]
-            )
-            self.causal_graph.add_edges_from(
-                [
-                    (intervention_col, target_col)
-                    for intervention_col in intervention_cols
-                ]
-            )
+        self.causal_graph = causal_graph
         self.intervention_cols = self.sorted_intervention_cols()
 
     def sorted_intervention_cols(self) -> list[str]:

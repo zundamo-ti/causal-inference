@@ -3,7 +3,7 @@ import { v4 as uuid4 } from "uuid";
 import { Graph } from "./components/Graph";
 import {
   InferenceButton,
-  InferenceResultDisplayer,
+  InferenceResultDisplayer
 } from "./components/Inference";
 import { Upload } from "./components/Upload";
 import appStyles from "./styles/App.module.scss";
@@ -22,7 +22,7 @@ function App() {
   return (
     <RecoilRoot>
       <div className={appStyles.app}>
-        <h1>Treatment Effect Optimization</h1>
+        <h1>Intervention Effect Optimization</h1>
         <Upload />
         <InferenceButton />
         <InferenceResultDisplayer />
