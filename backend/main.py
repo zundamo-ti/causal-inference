@@ -8,28 +8,29 @@ from src.simultaneous_inference import SimultaneousCausalInference
 
 app = FastAPI()
 
+NodeID: TypeAlias = str
 Table: TypeAlias = dict[str, list[float | int]]
 
 
 class Edge(BaseModel):
-    fromNode: str
-    toNode: str
+    fromNode: NodeID
+    toNode: NodeID
 
 
 class Graph(BaseModel):
-    nodes: list[str]
+    nodes: list[NodeID]
     edges: list[Edge]
 
 
 class InferenceRequest(BaseModel):
     table: Table
     graph: Graph
-    treatments: list[str]
-    outcome: str
+    treatments: list[NodeID]
+    outcome: NodeID
 
 
 class InferenceResponse(BaseModel):
-    causal_effect: dict[str, float]
+    causal_effect: dict[NodeID, float]
 
 
 @app.post("/inference")
