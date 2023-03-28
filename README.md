@@ -8,7 +8,7 @@ The goal is to provide a service that allows anyone to do the followings
 - Causal Inference
 - Optimization of Intervention
 
-<span style="color: red; font-weight: bold;">The present version implement only causal inference part</span> which is sufficiently useful. More developments are needed to reach the our goal. Especially we think it is nice to connect or take in the causal discovery modules being developed by structured data guild.
+<span style="color: red">The present version implement only causal inference part</span> which is sufficiently useful. More developments are needed to reach the our goal. Especially we think it is nice to connect or take in the causal discovery modules being developed by structured data guild.
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ The goal is to provide a service that allows anyone to do the followings
 
 ## Remarks
 
-- The causal effects are calculated as simulteneous causal effects.
+- The causal effects are calculated as simulteneous causal effects. The theory and logic is founded in the book of Miyagawa.
 
 ## Reference
 
