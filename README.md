@@ -48,3 +48,6 @@ The goal is to provide a service that allows anyone to do the followings
 
 - [J.Pearl, M.Glymour, N.P.Jewell(著)/落海 浩(訳)入門 統計的因果推論](https://www.asakura.co.jp/detail.php?book_code=12241)
 - [宮川雅巳. (2004). 統計的因果推論ー回帰分析の新しい枠組みー. 朝倉書店.](https://www.asakura.co.jp/detail.php?book_code=12781)
+- [Tian, J., & Paz, A., & Pearl, J. (1998). Finding Minimal D-separators. Tech. Rep. R-254, Univ. of California, Los Angeles.](https://ftp.cs.ucla.edu/pub/stat_ser/r254.pdf)
+- [Acid, S., & De Campos, L. M. (2013). An algorithm for finding minimum d-separating sets in belief networks. arXiv preprint arXiv:1302.3549.](https://arxiv.org/abs/1302.3549)
+- [宮川統計的因果推論のまとめ記事](https://wiki.exwzd.com/pages/viewpage.action?pageId=54520280)
